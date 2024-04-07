@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">3AND</string>
+    <string name="recipe_detail_title">Recipe ID: %1$d</string>
+    <string name="recipe_detail_activity_label">Recipe Detail</string>
+</resources>
