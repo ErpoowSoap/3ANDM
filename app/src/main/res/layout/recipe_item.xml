@@ -2,19 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="15dp">
 
-    <ImageView
-        android:id="@+id/recipe_image"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_marginRight="10dp" />
-
-    <TextView
-        android:id="@+id/recipe_title"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="68dp"
-        android:textSize="25sp" />
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:padding="5dp"
+        android:background="@drawable/border">
+
+        <ImageView
+            android:id="@+id/recipe_image"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"/>
+
+        <TextView
+            android:id="@+id/recipe_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="25sp"
+            android:layout_marginStart="70dp"/> <!-- Marge à gauche de l'image -->
+    </FrameLayout>
 
 </LinearLayout>

@@ -66,7 +66,5 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(recipe: Recipe) {
-        // Gérer le clic sur la recette ici
-        // Par exemple, afficher les détails de la recette ou effectuer une action appropriée
     }
 }
