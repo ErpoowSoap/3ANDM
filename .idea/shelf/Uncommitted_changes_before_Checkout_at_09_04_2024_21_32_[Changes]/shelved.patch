@@ -1,0 +1,313 @@
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">3AND</string>\r\n</resources>
+===================================================================
+diff --git a/app/src/main/res/values/strings.xml b/app/src/main/res/values/strings.xml
+--- a/app/src/main/res/values/strings.xml	
++++ b/app/src/main/res/values/strings.xml	
+@@ -1,3 +1,5 @@
+ <resources>
+     <string name="app_name">3AND</string>
++    <string name="recipe_detail_title">Recipe ID: %1$d</string>
++    <string name="recipe_detail_activity_label">Recipe Detail</string>
+ </resources>
+\ No newline at end of file
+Index: app/src/main/java/com/example/a3and/route/GetBySearch.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.a3and.route\r\n\r\nimport java.io.BufferedReader\r\nimport java.io.InputStreamReader\r\nimport java.net.HttpURLConnection\r\nimport java.net.URL\r\n\r\nfun getRecipeBySearch(recipe: String): String {\r\n    val apiUrl = \"https://food2fork.ca/api/recipe/search/?query=$recipe\"\r\n    val url = URL(apiUrl)\r\n    val connection = url.openConnection() as HttpURLConnection\r\n    connection.requestMethod = \"GET\"\r\n    connection.setRequestProperty(\"Authorization\", \"Token 9c8b06d329136da358c2d00e76946b0111ce2c48\")\r\n    connection.doInput = true\r\n\r\n    val responseCode = connection.responseCode\r\n    if (responseCode == HttpURLConnection.HTTP_OK) {\r\n        val reader = BufferedReader(InputStreamReader(connection.inputStream))\r\n        val response = reader.readText()\r\n        reader.close()\r\n        return response\r\n    } else {\r\n        throw Exception(\"Failed to fetch recipe: HTTP error code $responseCode\")\r\n    }\r\n}\r\n
+===================================================================
+diff --git a/app/src/main/java/com/example/a3and/route/GetBySearch.kt b/app/src/main/java/com/example/a3and/route/GetBySearch.kt
+--- a/app/src/main/java/com/example/a3and/route/GetBySearch.kt	
++++ b/app/src/main/java/com/example/a3and/route/GetBySearch.kt	
+@@ -22,4 +22,6 @@
+     } else {
+         throw Exception("Failed to fetch recipe: HTTP error code $responseCode")
+     }
++
++    print("okok")
+ }
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"gradleJvm\" value=\"#GRADLE_LOCAL_JAVA_HOME\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveExternalAnnotations\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/gradle.xml b/.idea/gradle.xml
+--- a/.idea/gradle.xml	
++++ b/.idea/gradle.xml	
+@@ -1,5 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
++  <component name="GradleMigrationSettings" migrationVersion="1" />
+   <component name="GradleSettings">
+     <option name="linkedExternalProjectsSettings">
+       <GradleProjectSettings>
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><project version=\"4\">\r\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\r\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_17\" default=\"true\" project-jdk-name=\"jbr-17\" project-jdk-type=\"JavaSDK\">\r\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\r\n  </component>\r\n  <component name=\"ProjectType\">\r\n    <option name=\"id\" value=\"Android\" />\r\n  </component>\r\n</project>
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	
++++ b/.idea/misc.xml	
+@@ -1,9 +1,4 @@
+ <project version="4">
+   <component name="ExternalStorageConfigurationManager" enabled="true" />
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK">
+-    <output url="file://$PROJECT_DIR$/build/classes" />
+-  </component>
+-  <component name="ProjectType">
+-    <option name="id" value="Android" />
+-  </component>
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK" />
+ </project>
+\ No newline at end of file
+Index: app/src/main/java/com/example/a3and/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.a3and\r\n\r\nimport android.os.Bundle\r\nimport androidx.activity.ComponentActivity\r\nimport androidx.lifecycle.lifecycleScope\r\nimport com.example.a3and.route.getRecipeBySearch\r\nimport kotlinx.coroutines.Dispatchers\r\nimport kotlinx.coroutines.launch\r\nimport kotlinx.coroutines.withContext\r\n\r\nclass MainActivity : ComponentActivity() {\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n\r\n        lifecycleScope.launch {\r\n            try {\r\n                val recipeJson = withContext(Dispatchers.IO)\r\n                {\r\n\r\n                    //Juste pour test\r\n                    for(i in 1..10)\r\n                    {\r\n                    println(getRecipeBySearch(\"beef\"))\r\n                }\r\n                }\r\n                print(recipeJson)\r\n            } catch (e: Exception) {\r\n                print(\"pas good\")\r\n            }\r\n        }\r\n    }\r\n}
+===================================================================
+diff --git a/app/src/main/java/com/example/a3and/MainActivity.kt b/app/src/main/java/com/example/a3and/MainActivity.kt
+--- a/app/src/main/java/com/example/a3and/MainActivity.kt	
++++ b/app/src/main/java/com/example/a3and/MainActivity.kt	
+@@ -1,33 +1,108 @@
+ package com.example.a3and
+ 
+ import android.os.Bundle
++import androidx.appcompat.widget.SearchView
+ import androidx.activity.ComponentActivity
+ import androidx.lifecycle.lifecycleScope
++import androidx.recyclerview.widget.LinearLayoutManager
++import androidx.recyclerview.widget.RecyclerView
++import com.example.a3and.adapter.RecipeAdapter
++import com.example.a3and.model.Recipe
++import com.example.a3and.route.getRecipeById
+ import com.example.a3and.route.getRecipeBySearch
++import com.google.gson.Gson
+ import kotlinx.coroutines.Dispatchers
+ import kotlinx.coroutines.launch
+ import kotlinx.coroutines.withContext
++import com.example.a3and.LoadingActivity.RecipeHolder
+ 
+-class MainActivity : ComponentActivity() {
++class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
++
++    private lateinit var recipeRecyclerView: RecyclerView
++    private lateinit var recipeAdapter: RecipeAdapter
++    private var currentPage = 1
+ 
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
++        setContentView(R.layout.activity_main)
+ 
+-        lifecycleScope.launch {
+-            try {
+-                val recipeJson = withContext(Dispatchers.IO)
+-                {
+-
+-                    //Juste pour test
+-                    for(i in 1..10)
+-                    {
+-                    println(getRecipeBySearch("beef"))
+-                }
+-                }
+-                print(recipeJson)
+-            } catch (e: Exception) {
+-                print("pas good")
+-            }
+-        }
++        val searchView = findViewById<SearchView>(R.id.searchView)
++        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
++            override fun onQueryTextSubmit(query: String): Boolean {
++                searchView.clearFocus() // close the keyboard after submission
++                lifecycleScope.launch {
++                    try {
++                        withContext(Dispatchers.IO) {
++                            val recipeJson = getRecipeBySearch(query)
++                            val recipe = Gson().fromJson(recipeJson, Recipe::class.java)
++                            withContext(Dispatchers.Main) {
++                                recipeAdapter.recipeList.clear()
++                                recipeAdapter.recipeList.add(recipe)
++                                recipeAdapter.notifyDataSetChanged()
++                            }
++                        }
++                    } catch (e: Exception) {
++                        println("Error fetching recipe: ${e.message}")
++                    }
++                }
++                return true
++            }
++
++            override fun onQueryTextChange(newText: String): Boolean {
++                // You can implement real-time search here if needed
++                return false
++            }
++        })
++
++        recipeRecyclerView = findViewById(R.id.recipeRecyclerView)
++        val layoutManager = LinearLayoutManager(this)
++        recipeRecyclerView.layoutManager = layoutManager
++        recipeRecyclerView.setHasFixedSize(true)
++
++        val recipes = mutableListOf<Recipe>()
++        recipeAdapter = RecipeAdapter(recipes,this,this)
++        recipeRecyclerView.adapter = recipeAdapter
++
++        recipeRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
++            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
++                super.onScrolled(recyclerView, dx, dy)
++                if (!recyclerView.canScrollVertically(1) && dy > 0) {
++                    currentPage++
++                    loadRecipes(currentPage)
++                }
++            }
++        })
++
++        if (RecipeHolder.recipes.isNotEmpty()) {
++            recipeAdapter.recipeList.addAll(RecipeHolder.recipes)
++            recipeAdapter.notifyDataSetChanged()
++        } else {
++            loadRecipes(currentPage)
++        }
++    }
++
++    private fun loadRecipes(page: Int) {
++        lifecycleScope.launch {
++            try {
++                withContext(Dispatchers.IO) {
++                    for (i in 1..10) {
++                        val recipeId = ((page - 1) * 10) + i
++                        val recipeJson = getRecipeById(recipeId)
++                        val recipe = Gson().fromJson(recipeJson, Recipe::class.java)
++                        withContext(Dispatchers.Main) {
++                            recipeAdapter.recipeList.add(recipe)
++                            recipeAdapter.notifyItemInserted(recipeAdapter.recipeList.size - 1)
++                        }
++                    }
++                }
++            } catch (e: Exception) {
++                println("Erreur lors de la récupération des recettes: ${e.message}")
++            }
++        }
++    }
++
++    override fun onItemClick(recipe: Recipe) {
++        // Gérer le clic sur la recette ici
++        // Par exemple, afficher les détails de la recette ou effectuer une action appropriée
+     }
+ }
+\ No newline at end of file
+Index: gradle/wrapper/gradle-wrapper.properties
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>#Thu Mar 28 20:22:15 CET 2024\r\ndistributionBase=GRADLE_USER_HOME\r\ndistributionPath=wrapper/dists\r\ndistributionUrl=https\\://services.gradle.org/distributions/gradle-8.2-bin.zip\r\nzipStoreBase=GRADLE_USER_HOME\r\nzipStorePath=wrapper/dists\r\n
+===================================================================
+diff --git a/gradle/wrapper/gradle-wrapper.properties b/gradle/wrapper/gradle-wrapper.properties
+--- a/gradle/wrapper/gradle-wrapper.properties	
++++ b/gradle/wrapper/gradle-wrapper.properties	
+@@ -1,6 +1,6 @@
+ #Thu Mar 28 20:22:15 CET 2024
+ distributionBase=GRADLE_USER_HOME
+ distributionPath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-8.2-bin.zip
++distributionUrl=https\://services.gradle.org/distributions/gradle-8.4-bin.zip
+ zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+Index: build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\nplugins {\r\n    id(\"com.android.application\") version \"8.2.2\" apply false\r\n    id(\"org.jetbrains.kotlin.android\") version \"1.9.0\" apply false\r\n}
+===================================================================
+diff --git a/build.gradle.kts b/build.gradle.kts
+--- a/build.gradle.kts	
++++ b/build.gradle.kts	
+@@ -1,5 +1,5 @@
+ // Top-level build file where you can add configuration options common to all sub-projects/modules.
+ plugins {
+-    id("com.android.application") version "8.2.2" apply false
++    id("com.android.application") version "8.3.1" apply false
+     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
+ }
+\ No newline at end of file
+Index: app/build.gradle.kts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>plugins {\r\n    id(\"com.android.application\")\r\n    id(\"org.jetbrains.kotlin.android\")\r\n}\r\n\r\nandroid {\r\n    namespace = \"com.example.a3and\"\r\n    compileSdk = 34\r\n\r\n    defaultConfig {\r\n        applicationId = \"com.example.a3and\"\r\n        minSdk = 26\r\n        targetSdk = 34\r\n        versionCode = 1\r\n        versionName = \"1.0\"\r\n\r\n        testInstrumentationRunner = \"androidx.test.runner.AndroidJUnitRunner\"\r\n        vectorDrawables {\r\n            useSupportLibrary = true\r\n        }\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            isMinifyEnabled = false\r\n            proguardFiles(\r\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\r\n                \"proguard-rules.pro\"\r\n            )\r\n        }\r\n    }\r\n    compileOptions {\r\n        sourceCompatibility = JavaVersion.VERSION_1_8\r\n        targetCompatibility = JavaVersion.VERSION_1_8\r\n    }\r\n    kotlinOptions {\r\n        jvmTarget = \"1.8\"\r\n    }\r\n    buildFeatures {\r\n        compose = true\r\n    }\r\n    composeOptions {\r\n        kotlinCompilerExtensionVersion = \"1.5.1\"\r\n    }\r\n    packaging {\r\n        resources {\r\n            excludes += \"/META-INF/{AL2.0,LGPL2.1}\"\r\n        }\r\n    }\r\n}\r\n\r\ndependencies {\r\n\r\n    implementation(\"androidx.core:core-ktx:1.12.0\")\r\n    implementation(\"androidx.lifecycle:lifecycle-runtime-ktx:2.7.0\")\r\n    implementation(\"androidx.activity:activity-compose:1.8.2\")\r\n    implementation(platform(\"androidx.compose:compose-bom:2023.08.00\"))\r\n    implementation(\"androidx.compose.ui:ui\")\r\n    implementation(\"androidx.compose.ui:ui-graphics\")\r\n    implementation(\"androidx.compose.ui:ui-tooling-preview\")\r\n    implementation(\"androidx.compose.material3:material3\")\r\n    testImplementation(\"junit:junit:4.13.2\")\r\n    androidTestImplementation(\"androidx.test.ext:junit:1.1.5\")\r\n    androidTestImplementation(\"androidx.test.espresso:espresso-core:3.5.1\")\r\n    androidTestImplementation(platform(\"androidx.compose:compose-bom:2023.08.00\"))\r\n    androidTestImplementation(\"androidx.compose.ui:ui-test-junit4\")\r\n    debugImplementation(\"androidx.compose.ui:ui-tooling\")\r\n    debugImplementation(\"androidx.compose.ui:ui-test-manifest\")\r\n}
+===================================================================
+diff --git a/app/build.gradle.kts b/app/build.gradle.kts
+--- a/app/build.gradle.kts	
++++ b/app/build.gradle.kts	
+@@ -50,7 +50,11 @@
+ }
+ 
+ dependencies {
+-
++    implementation("androidx.appcompat:appcompat:1.6.1")
++    implementation ("com.github.bumptech.glide:glide:4.12.0")
++    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
++    implementation ("androidx.recyclerview:recyclerview:1.3.2")
++    implementation ("com.google.code.gson:gson:2.10.1")
+     implementation("androidx.core:core-ktx:1.12.0")
+     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
+     implementation("androidx.activity:activity-compose:1.8.2")
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <uses-permission android:name=\"android.permission.INTERNET\" />\r\n\r\n\r\n    <application\r\n\r\n        android:allowBackup=\"true\"\r\n        android:dataExtractionRules=\"@xml/data_extraction_rules\"\r\n        android:fullBackupContent=\"@xml/backup_rules\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/Theme._3AND\"\r\n        tools:targetApi=\"31\">\r\n        <activity\r\n            android:name=\".MainActivity\"\r\n            android:exported=\"true\"\r\n            android:label=\"@string/app_name\"\r\n            android:theme=\"@style/Theme._3AND\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+===================================================================
+diff --git a/app/src/main/AndroidManifest.xml b/app/src/main/AndroidManifest.xml
+--- a/app/src/main/AndroidManifest.xml	
++++ b/app/src/main/AndroidManifest.xml	
+@@ -1,32 +1,40 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools">
++    xmlns:tools="http://schemas.android.com/tools"
++    package="com.example.a3and">
+ 
+     <uses-permission android:name="android.permission.INTERNET" />
+ 
+-
+     <application
+-
+         android:allowBackup="true"
++        android:icon="@drawable/icon"
+         android:dataExtractionRules="@xml/data_extraction_rules"
+         android:fullBackupContent="@xml/backup_rules"
+-        android:icon="@mipmap/ic_launcher"
+         android:label="@string/app_name"
+         android:roundIcon="@mipmap/ic_launcher_round"
+         android:supportsRtl="true"
+         android:theme="@style/Theme._3AND"
+         tools:targetApi="31">
+         <activity
+-            android:name=".MainActivity"
+-            android:exported="true"
+-            android:label="@string/app_name"
+-            android:theme="@style/Theme._3AND">
++            android:name=".LoadingActivity"
++            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
++            android:exported="true">
+             <intent-filter>
+                 <action android:name="android.intent.action.MAIN" />
+-
+                 <category android:name="android.intent.category.LAUNCHER" />
+             </intent-filter>
+         </activity>
++
++        <activity
++            android:name=".MainActivity"
++            android:exported="true"
++            android:label="@string/app_name"
++            android:theme="@style/AppTheme">
++        </activity>
++
++        <activity
++            android:name=".RecipeDetailActivity"
++            android:label="@string/recipe_detail_activity_label">
++        </activity>
+     </application>
+-
+ </manifest>
+\ No newline at end of file
