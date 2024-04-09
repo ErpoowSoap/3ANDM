@@ -84,4 +84,3 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
         val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
         return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
-}
