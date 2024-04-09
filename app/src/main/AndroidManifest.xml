@@ -4,6 +4,8 @@
     package="com.example.a3and">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
 
     <application
         android:allowBackup="true"
@@ -25,11 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-            android:name=".RecipeDetailActivity"
-            android:label="@string/recipe_detail_activity_label">
-
+            android:name=".RecipeDetailActivity">
+        </activity>
+        <activity
+            android:name=".NoInternetActivity">
         </activity>
     </application>
 

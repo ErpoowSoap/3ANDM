@@ -24,7 +24,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textSize="25sp"
-            android:layout_marginStart="70dp"/> <!-- Marge à gauche de l'image -->
+            android:layout_marginStart="70dp"/>
+
+
     </FrameLayout>
+        <TextView
+            android:id="@+id/recipe_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:layout_gravity="center_vertical"/>
 
 </LinearLayout>

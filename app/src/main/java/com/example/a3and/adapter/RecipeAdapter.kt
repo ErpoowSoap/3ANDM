@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.a3and.R
 import com.example.a3and.RecipeDetailActivity
 import com.example.a3and.model.Recipe
-
+import androidx.core.text.HtmlCompat
 
 
 class RecipeAdapter(val recipeList: MutableList<Recipe>, val listener: OnItemClickListener, val context: Context) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
@@ -24,6 +24,7 @@ class RecipeAdapter(val recipeList: MutableList<Recipe>, val listener: OnItemCli
     class RecipeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val recipeTitle: TextView = itemView.findViewById(R.id.recipe_title)
         val recipeImage: ImageView = itemView.findViewById(R.id.recipe_image)
+        val recipeRating: TextView = itemView.findViewById(R.id.recipe_rating)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecipeViewHolder {
@@ -33,7 +34,8 @@ class RecipeAdapter(val recipeList: MutableList<Recipe>, val listener: OnItemCli
 
     override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
         val currentItem = recipeList[position]
-        holder.recipeTitle.text = currentItem.title
+        holder.recipeTitle.text = HtmlCompat.fromHtml(currentItem.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        holder.recipeRating.text = "${currentItem.rating}/100"
 
         Glide.with(holder.itemView.context)
             .load(currentItem.featured_image)

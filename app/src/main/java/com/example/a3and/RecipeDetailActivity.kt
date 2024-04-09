@@ -9,7 +9,10 @@ import com.example.a3and.model.Recipe
 import com.example.a3and.route.getRecipeById
 import com.google.gson.Gson
 import kotlinx.coroutines.*
-import android.text.util.Linkify
+import android.content.Intent
+import android.net.Uri
+import android.widget.Button
+import androidx.core.text.HtmlCompat
 class RecipeDetailActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,40 +39,30 @@ class RecipeDetailActivity : Activity() {
 
     private fun displayRecipeDetails(recipe: Recipe) {
         findViewById<TextView>(R.id.recipe_title).apply {
-            text = "${recipe.title}"
+            text = HtmlCompat.fromHtml(recipe.title, HtmlCompat.FROM_HTML_MODE_LEGACY)
         }
 
         findViewById<TextView>(R.id.recipe_publisher).apply {
-            text = "Auteur : ${recipe.publisher}"
+            text = "Posté par : ${recipe.publisher}"
         }
 
         findViewById<TextView>(R.id.recipe_rating).apply {
-            text = "Évaluation : ${recipe.rating}/100"
+            text = "Note : ${recipe.rating}/100"
         }
 
-        val sourceUrlTextView: TextView = findViewById(R.id.recipe_source_url)
-        sourceUrlTextView.apply {
-            text = "Source : ${recipe.source_url}"
-            Linkify.addLinks(this, Linkify.WEB_URLS)
+        val sourceButton: Button = findViewById(R.id.source_button)
+        sourceButton.setOnClickListener {
+            val sourceUrl = recipe.source_url
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(sourceUrl))
+            startActivity(intent)
         }
-
-        findViewById<TextView>(R.id.recipe_description).apply {
-            text = "Description : ${recipe.description ?: "N/A"}"
-        }
-
-        findViewById<TextView>(R.id.recipe_cooking_instructions).apply {
-            text = "Instructions de cuisson : ${recipe.cooking_instructions ?: "N/A"}"
-        }
-
         val ingredientsTextView: TextView = findViewById(R.id.recipe_ingredients)
         ingredientsTextView.text = recipe.ingredients.joinToString("\n")
+
         findViewById<TextView>(R.id.recipe_date_added).apply {
             text = "Date d'ajout : ${recipe.date_added}"
         }
 
-        findViewById<TextView>(R.id.recipe_date_updated).apply {
-            text = "Date de mise à jour : ${recipe.date_updated}"
-        }
 
         val recipeImageView: ImageView = findViewById(R.id.recipe_image)
         Glide.with(this@RecipeDetailActivity)

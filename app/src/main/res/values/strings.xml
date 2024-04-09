@@ -2,4 +2,6 @@
     <string name="app_name">3AND</string>
     <string name="recipe_detail_title">Recipe ID: %1$d</string>
     <string name="recipe_detail_activity_label">Recipe Detail</string>
+    <string name="recipe_source_url">Votre URL de recette ici</string>
+    <string name="ingredients_title"> Ingrédients : </string>
 </resources>

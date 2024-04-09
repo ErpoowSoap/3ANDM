@@ -45,7 +45,8 @@
         android:layout_below="@id/recipe_title"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/recipe_rating"
@@ -54,40 +55,35 @@
         android:layout_below="@id/recipe_publisher"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/recipe_source_url"
+    <Button
+        android:id="@+id/source_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Source"
         android:layout_below="@id/recipe_rating"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/recipe_description"
+        android:id="@+id/recipe_ingredients_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recipe_source_url"
-        android:layout_marginTop="8dp"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_below="@id/source_button"
         android:layout_marginStart="16dp"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/recipe_cooking_instructions"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recipe_description"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:textSize="18sp" />
+        android:text="@string/ingredients_title" />
 
     <TextView
         android:id="@+id/recipe_ingredients"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/recipe_cooking_instructions"
+        android:layout_below="@id/recipe_ingredients_title"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:textSize="18sp" />
@@ -99,16 +95,7 @@
         android:layout_below="@id/recipe_ingredients"
         android:layout_marginTop="8dp"
         android:layout_marginStart="16dp"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/recipe_date_updated"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/recipe_date_added"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="16dp"
-        android:textSize="18sp" />
+        android:textSize="14sp" />
 
 </RelativeLayout>
 </ScrollView>

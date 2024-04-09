@@ -1,5 +1,8 @@
 package com.example.a3and
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +15,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import android.content.Intent
 
 class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
 
@@ -29,7 +33,7 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
         recipeRecyclerView.setHasFixedSize(true)
 
         val recipes = mutableListOf<Recipe>()
-        recipeAdapter = RecipeAdapter(recipes,this,this)
+        recipeAdapter = RecipeAdapter(recipes, this, this)
         recipeRecyclerView.adapter = recipeAdapter
 
         recipeRecyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -42,7 +46,13 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
             }
         })
 
-        loadRecipes(currentPage)
+        if (isConnectedToInternet()) {
+            loadRecipes(currentPage)
+        } else {
+            val intent = Intent(this@MainActivity, NoInternetActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
     private fun loadRecipes(page: Int) {
@@ -66,5 +76,12 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(recipe: Recipe) {
+    }
+
+    private fun isConnectedToInternet(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val network = connectivityManager.activeNetwork
+        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
+        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
     }
 }
