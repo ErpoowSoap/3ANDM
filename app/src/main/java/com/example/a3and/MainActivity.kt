@@ -1,8 +1,5 @@
 package com.example.a3and
 
-import android.content.Context
-import android.net.ConnectivityManager
-import android.net.NetworkCapabilities
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +12,7 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import android.content.Intent
+import com.example.a3and.LoadingActivity.*
 
 class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
 
@@ -45,16 +42,14 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
                 }
             }
         })
-
-        if (isConnectedToInternet()) {
-            loadRecipes(currentPage)
+        if (RecipeHolder.recipes.isNotEmpty()) {
+            recipeAdapter.recipeList.addAll(RecipeHolder.recipes)
+            recipeAdapter.notifyDataSetChanged()
         } else {
-            val intent = Intent(this@MainActivity, NoInternetActivity::class.java)
-            startActivity(intent)
-            finish()
+            loadRecipes(currentPage)
         }
-    }
 
+    }
     private fun loadRecipes(page: Int) {
         lifecycleScope.launch {
             try {
@@ -75,14 +70,8 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
         }
     }
 
-    override fun onItemClick(recipe: Recipe) {
-    }
 
-    private fun isConnectedToInternet(): Boolean {
-        val connectivityManager =
-            getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val network = connectivityManager.activeNetwork
-        val networkCapabilities = connectivityManager.getNetworkCapabilities(network)
-        return networkCapabilities?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+
+    override fun onItemClick(recipe: Recipe) {
     }
 }

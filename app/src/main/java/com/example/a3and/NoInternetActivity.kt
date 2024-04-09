@@ -11,7 +11,7 @@ class NoInternetActivity : Activity() {
         setContentView(R.layout.activity_nointernet)
         val retryButton = findViewById<Button>(R.id.retryButton)
         retryButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this,LoadingActivity::class.java)
             startActivity(intent)
             finish()
         }
