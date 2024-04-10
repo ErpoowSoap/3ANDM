@@ -100,13 +100,11 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
-                    // Fonction pour filtrer les recettes en fonction de la recherche
                     filterRecipes(it)
                 }
                 return true
             }
 
-            // Fonction pour filtrer les recettes en fonction de la recherche
             private fun filterRecipes(query: String) {
                 loadData(query)
             }
