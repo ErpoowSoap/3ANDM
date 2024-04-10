@@ -18,7 +18,9 @@ import kotlinx.coroutines.withContext
 import com.example.a3and.LoadingActivity.*
 import com.example.a3and.route.getRecipeBySearch
 import org.json.JSONObject
-
+import com.example.a3and.model.RecipeEntity
+import com.example.a3and.database.AppDatabase
+import androidx.room.Room
 
 class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
 
@@ -33,12 +35,8 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Trouver la vue SearchView
         val searchView = findViewById<SearchView>(R.id.searchView)
-
-        // Initialiser la liste de recettes initiale
         originalRecipes = mutableListOf()
-
         recipeRecyclerView = findViewById(R.id.recipeRecyclerView)
         val layoutManager = LinearLayoutManager(this)
         recipeRecyclerView.layoutManager = layoutManager
@@ -95,8 +93,6 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
         } else {
             loadRecipes(currentPage)
         }
-
-        // Ajouter un écouteur de recherche à la barre de recherche
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
@@ -145,26 +141,6 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
             addToAdapter(list)
         }
     }
-
-    private fun filterRecipesByCategory(category: String) {
-        val filteredRecipes = if (category == "All") {
-            originalRecipes
-        } else {
-            originalRecipes.filter { recipe ->
-                recipe.ingredients.any {
-                    it.contains(
-                        category,
-                        ignoreCase = true
-                    )
-                }
-            }
-        }
-        recipeAdapter.recipeList.clear()
-        recipeAdapter.recipeList.addAll(filteredRecipes)
-        recipeAdapter.notifyDataSetChanged()
-        Log.d("MainActivity", "Filtered Recipes for Category $category: $filteredRecipes")
-    }
-
     private suspend fun loadAllRecipes(search: String = "All"): List<Recipe> {
         return withContext(Dispatchers.IO) {
             val recipeJson = getRecipeBySearch(search)
@@ -178,6 +154,12 @@ class MainActivity : ComponentActivity(), RecipeAdapter.OnItemClickListener {
                 )
                 list.add(recipe)
             }
+            val recipeEntities = list.map { RecipeEntity(it.pk, it.title, it.publisher,it.source_url,it.rating,it.featured_image,it.ingredients,it.date_added) }
+            val db = Room.databaseBuilder(
+                applicationContext,
+                AppDatabase::class.java, "database-name"
+            ).fallbackToDestructiveMigration().build()
+            db.recipeDao().insertAll(recipeEntities)
             list
         }
     }
