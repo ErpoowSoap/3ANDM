@@ -34,7 +34,7 @@ Le projet "3andm" est une application Android développée dans le cadre d'un co
 
 Pour installer et lancer le projet "3andm" sur votre environnement de développement :
 
-1. Clonez le dépôt GitHub :
+1. Clonez le dépôt GitHub ou utilisez le .ZIP fourni:
    ```
    git clone https://github.com/ErpoowSoap/3ANDM.git
    ```
