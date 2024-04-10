@@ -1,13 +1,94 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!-- Ajoutez la vue SearchView en premier -->
+    <SearchView
+        android:id="@+id/searchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/white"
+        android:queryHint="Search Recipes" />
+
+    <!-- Layout pour les boutons de catégorie -->
+    <LinearLayout
+        android:id="@+id/categoryButtonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/searchView"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Sous-layout pour les quatre premiers boutons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonAll"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="All" />
+
+            <Button
+                android:id="@+id/buttonChicken"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Chicken" />
+
+            <Button
+                android:id="@+id/buttonFish"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Fish" />
+
+            <Button
+                android:id="@+id/buttonBeef"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Beef" />
+
+        </LinearLayout>
+
+        <!-- Boutons restants -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonVanilla"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vanilla" />
+
+            <Button
+                android:id="@+id/buttonChocolate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Chocolate" />
+
+            <!-- Ajoutez d'autres boutons ici si nécessaire -->
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Ensuite, ajoutez le RecyclerView en dessous de la barre de recherche -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipeRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@id/categoryButtonsLayout" />
 
 </RelativeLayout>
