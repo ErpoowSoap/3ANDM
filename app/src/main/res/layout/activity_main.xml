@@ -4,16 +4,19 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!-- Ajoutez la vue SearchView en premier -->
-    <SearchView
-        android:id="@+id/searchView"
+        <SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:background="@android:color/white"
+            android:queryHint="Search Recipes" />
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:background="@android:color/white"
-        android:queryHint="Search Recipes" />
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/searchView"/>
 
-    <!-- Layout pour les boutons de catégorie -->
     <LinearLayout
         android:id="@+id/categoryButtonsLayout"
         android:layout_width="match_parent"
@@ -33,32 +36,42 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="All" />
+                android:text="All"
+                android:textColor="@android:color/white"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_button" />
 
             <Button
                 android:id="@+id/buttonChicken"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Chicken" />
+                android:text="Chicken"
+                android:textColor="@android:color/white"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_button" />
 
             <Button
                 android:id="@+id/buttonFish"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Fish" />
+                android:text="Fish"
+                android:textColor="@android:color/white"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_button" />
 
             <Button
                 android:id="@+id/buttonBeef"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Beef" />
-
+                android:text="Beef"
+                android:textColor="@android:color/white"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_button" />
         </LinearLayout>
 
-        <!-- Boutons restants -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,22 +82,24 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Vanilla" />
+                android:text="Vanilla"
+                android:textColor="@android:color/white"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_button" />
 
             <Button
                 android:id="@+id/buttonChocolate"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Chocolate" />
-
-            <!-- Ajoutez d'autres boutons ici si nécessaire -->
+                android:text="Chocolate"
+                android:textColor="@android:color/white"
+                android:layout_margin="5dp"
+                android:background="@drawable/rounded_button" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-    <!-- Ensuite, ajoutez le RecyclerView en dessous de la barre de recherche -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recipeRecyclerView"
         android:layout_width="match_parent"

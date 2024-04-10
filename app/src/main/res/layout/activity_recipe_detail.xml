@@ -18,14 +18,6 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true" />
 
-    <View
-        android:id="@+id/image_border"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentTop="true"
-        android:foreground="@drawable/image_border"/>
-
 
     <TextView
         android:id="@+id/recipe_title"
